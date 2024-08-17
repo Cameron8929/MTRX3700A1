@@ -13,7 +13,7 @@ module timer #(
 );
 
     // Your code here!
-	 // Test
+	 // Test Delete and Reopen
     reg [$clog2(CLKS_PER_MS)-1:0] clock_ticks;
     reg [$clog2(MAX_MS)-1:0] ms;
 
