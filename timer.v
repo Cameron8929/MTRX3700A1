@@ -1,3 +1,5 @@
+// James test
+
 `timescale 1ns/1ns /* This directive (`) specifies simulation <time unit>/<time precision>. */
 
 module timer #(
