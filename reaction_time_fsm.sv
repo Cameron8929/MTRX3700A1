@@ -8,7 +8,8 @@ module reaction_time_fsm #(
     output logic                      up,
     output logic                      enable,
     output logic                      led_on
-);
+);  
+
 
     // Edge detection block here!
     logic button_q0, button_edge;
