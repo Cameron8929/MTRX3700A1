@@ -4,13 +4,13 @@ module reaction_time_fsm #(
     input                             clk,
     input                             button_pressed,
     input        [$clog2(MAX_MS)-1:0] timer_value,
-	 input 									  [3:0]random_value,
     output logic                      reset,
     output logic                      up,
     output logic                      enable,
-    output logic                      [17:0] led_on
+    output logic                      led_on
 );  
-		
+
+
     // Edge detection block here!
     logic button_q0, button_edge;
     always_ff @(posedge clk) begin : edge_detect
@@ -44,22 +44,11 @@ module reaction_time_fsm #(
             end
         endcase
     end
-	 
-	 logic leds;
     
     always_ff @(posedge clk) begin
         state <= next_state;
-		  
-		  if (state == S1) begin
-				leds <= random_value;
-		  end
     end
-	 
-	 
-	 
-	 
-	
-	
+
     // Continuously assign outputs here! (See 3.1 code snippets)
     always_comb 
     begin
@@ -74,7 +63,6 @@ module reaction_time_fsm #(
                 up = 0;
                 enable = 0;
                 led_on = 0;  
-					 
             end
             S1: 
             begin
@@ -88,7 +76,7 @@ module reaction_time_fsm #(
                 reset = 0;
                 up = 0;
                 enable = 1;
-                led_on = leds;
+                led_on = 1; 
             end
             S3: 
             begin
@@ -99,7 +87,5 @@ module reaction_time_fsm #(
             end
         endcase
     end
-	 
-	 
     
 endmodule

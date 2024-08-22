@@ -32,26 +32,21 @@ module top_level (
     .display2(HEX2), // etc.
     .display3(HEX3)
     );
-	 
-	 rng u2 (
-        .clk(CLOCK_50),
-        .random_value(random_value)
-		  
-    );
 
     reaction_time_fsm u1 (
         .clk(CLOCK_50),
         .button_pressed(button_pressed),
         .timer_value(timer_value),
-		  .random_value(random_value),
         .reset(timer_reset),
         .up(timer_up),
         .enable(timer_enable),
-        .led_on(LEDR)  // Connect to LEDR[0]
-		  
+        .led_on(LEDR[0])  // Connect to LEDR[0]
     );
 
-
+     rng u2 (
+        .clk(CLOCK_50),
+        .random_value(random_value)
+    );
 
 
 endmodule
