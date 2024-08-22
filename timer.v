@@ -64,35 +64,3 @@ module timer #(
     
 
 endmodule
-
-    /*** Hints (Challenge: delete these hints): ***/
-        /*
-         * Define 2 count bit vectors, one for counting clock cycles and the other for counting milliseconds.
-         * Make sure that these vectors have an appropriate size given their respective maximum values!
-         *
-         * Define a register `count_up` to remember whether we should be counting up or down.
-         *
-         * Make a sequential logic always procedure:
-         *  If reset then:
-         *    Set the clock-cycle counter to zero.
-         *    If up is high:
-         *      Set the millisecond counter to 0,
-         *      Set count_up to high.
-         *    Else:
-         *      Set the millisecond counter to start_value,
-         *      Set count_up to low.
-         *  Else if enable then:
-         *    If the clock cycle counter is `CLKS_PER_MS - 1` or greater:
-         *      Set clock cycle counter back to 0,
-         *      If count_up is high:
-         *        Increment the millisecond counter.
-         *      Else:
-         *        Decrement the millisecond counter.
-         *    Else:
-         *      Increment the clock cycle counter by 1.
-         *
-         * Continuously assign timer_value to your milliseconds timer.
-         *
-         * Note: `CLKS_PER_MS` is the number of clock cycles in a millisecond - calculate this number.
-         */
-
