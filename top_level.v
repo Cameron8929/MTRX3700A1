@@ -15,7 +15,7 @@ module top_level (
                                     .reset(timer_reset),
                                     .up(timer_up),
                                     .enable(timer_enable),
-                                    .start_value(random_value),
+//                                    .start_value(random_value),
                                     // Outputs:
                                     .timer_value(timer_value));
 
@@ -38,6 +38,7 @@ module top_level (
         .random_value(random_value)
 		  
     );
+	 
 
     reaction_time_fsm u1 (
         .clk(CLOCK_50),

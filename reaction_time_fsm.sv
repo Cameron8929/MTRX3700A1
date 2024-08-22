@@ -4,7 +4,7 @@ module reaction_time_fsm #(
     input                             clk,
     input                             button_pressed,
     input        [$clog2(MAX_MS)-1:0] timer_value,
-	 input 									  [3:0]random_value,
+	 input 									  [$clog2(17)-1:0]random_value,
     output logic                      reset,
     output logic                      up,
     output logic                      enable,
@@ -45,13 +45,14 @@ module reaction_time_fsm #(
         endcase
     end
 	 
-	 logic leds;
+	 logic [17:0] leds;
+	 
     
     always_ff @(posedge clk) begin
         state <= next_state;
 		  
 		  if (state == S1) begin
-				leds <= random_value;
+				leds <= 1 << random_value;
 		  end
     end
 	 
