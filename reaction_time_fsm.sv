@@ -1,14 +1,15 @@
 module reaction_time_fsm #(
-    parameter MAX_MS=2047    
+    parameter MAX_MS=2047,
+    parameter LED_NUM = 17    
 )(
     input                             clk,
     input                             button_pressed,
     input        [$clog2(MAX_MS)-1:0] timer_value,
-	 input 									  [$clog2(17)-1:0]random_value,
+	 input 									  [$clog2(LED_NUM)-1:0]random_value,
     output logic                      reset,
     output logic                      up,
     output logic                      enable,
-    output logic                      [17:0] led_on
+    output logic                      [LED_NUM:0] led_on
 );  
 		
     // Edge detection block here!
@@ -45,7 +46,7 @@ module reaction_time_fsm #(
         endcase
     end
 	 
-	 logic [17:0] leds;
+	 logic [LED_NUM:0] leds;
 	 
     
     always_ff @(posedge clk) begin

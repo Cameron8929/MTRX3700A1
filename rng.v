@@ -1,6 +1,7 @@
 module rng #(
     parameter OFFSET=200,
-    parameter MAX_VALUE=17,
+//    parameter MAX_VALUE=17,
+    parameter MAX_VALUE = 16,
     parameter SEED= 340 // Choose a random number seed here!
 ) (
     input clk,
