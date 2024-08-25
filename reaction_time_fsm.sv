@@ -56,7 +56,7 @@ module reaction_time_fsm #(
 							next_state = S0;
 					 end 
 					 
-					 else if (game_timer_value == 63) begin
+					 else if (game_timer_value == 60) begin
 							next_state = S4;
 					 end
 					 
@@ -75,7 +75,7 @@ module reaction_time_fsm #(
 						next_state = S3;
 					 end 
 					 
-					 else if (game_timer_value == 63) begin
+					 else if (game_timer_value == 60) begin
 							next_state = S4;
 					 end
 					 
@@ -90,7 +90,7 @@ module reaction_time_fsm #(
 				
             S3: 
             begin
-					 if (game_timer_value == 63) begin
+					 if (game_timer_value == 60) begin
 							next_state = S4;
 					 end
                 else begin

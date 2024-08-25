@@ -20,7 +20,7 @@ module top_level (
 	 wire [$clog2(60)-1:0] game_timer_value;
 	 
 	 wire [$clog2(60)-1:0] sus_timer;
-	 assign sus_timer = 6'b111111 - game_timer_value;
+	 assign sus_timer = 6'b111100 - game_timer_value;
 	 assign HEX7 = 7'b1000111;
 
     // First module instantiated for you as an example:
