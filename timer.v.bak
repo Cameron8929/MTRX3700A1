@@ -11,9 +11,10 @@ module timer #(
     input                       reset,
     input                       up,
 	 input                       enable,
-	 input [$clog2(MAX_MS)-1:0]  start_value,
     output [$clog2(MAX_MS)-1:0] timer_value
 );
+	 wire [$clog2(MAX_MS)-1:0]start_value;
+	 assign start_value = CLKS_PER_MS;
 	 
 
     reg [$clog2(CLKS_PER_MS)-1:0] clock_ticks;
