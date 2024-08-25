@@ -16,7 +16,7 @@ module reaction_time_fsm #(
 	 output logic 							  game_timer_enable,
     output logic                      [LED_NUM:0] led_on,
 	 output logic 							  [6:0] user_score,
-	 output logic 							[4: 0] level
+	 output logic 							[3: 0] level
 );  
 		
     // Edge detection block here!

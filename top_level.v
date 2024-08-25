@@ -13,9 +13,9 @@ module top_level (
 	 wire 		 game_reset, game_timer_enable;
     wire [10:0] timer_value, random_value;
 	 
-	 wire [6:0] HEX_DUMMY;
+	 wire [6:0] HEX_DUMMY0, HEX_DUMMY1;
 	 
-	 wire [5:0] level;
+	 wire [3:0] level;
 	 
 	 wire [$clog2(60)-1:0] game_timer_value;
 	 
@@ -70,9 +70,14 @@ module top_level (
     .value(sus_timer+(100*level)),
     .display0(HEX4), // Connect to HEX4
     .display1(HEX5), // Connect to HEX5
-    .display2(HEX6), 
-    .display3(HEX_DUMMY)
+    .display2(HEX_DUMMY0), 
+    .display3(HEX_DUMMY1)
     );
+	 
+	 seven_seg level_num_display(
+	 .bcd(level),
+	 .segments(HEX6)
+	 );
 	 
 	 
 	 rng u2 (
