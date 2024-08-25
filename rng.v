@@ -1,7 +1,7 @@
 module rng #(
     parameter OFFSET=200,
 //    parameter MAX_VALUE=17,
-    parameter MAX_VALUE = 16,
+    parameter MAX_VALUE = 18,
     parameter SEED= 340 // Choose a random number seed here!
 ) (
     input clk,
@@ -24,7 +24,8 @@ module rng #(
         lfsr[1] <= feedback;
     end
 
-    assign random_value = lfsr + OFFSET;
+//    assign random_value = lfsr + OFFSET;
+	assign random_value = (lfsr + OFFSET) % MAX_VALUE;
 
 
     // Assign random_value to your LSFR output + OFFSET to acheive the range 200 to 1223. Use continuous assign!
