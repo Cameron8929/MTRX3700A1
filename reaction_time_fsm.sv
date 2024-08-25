@@ -55,20 +55,15 @@ module reaction_time_fsm #(
 							next_state = S0;
 					 end 
 					 
-//					 else if (game_timer_value == 0) begin
-//							next_state = S4;
-//					 end
+					 else if (game_timer_value == 0) begin
+							next_state = S4;
+					 end
 					 
 					 else begin
 							next_state = S1;
 					 end 
 
             end
-				
-//            S2: 
-//            begin
-//                next_state = (button_edge) ? S3 : S2;
-//            end
 
             S2: 
             begin
@@ -80,9 +75,9 @@ module reaction_time_fsm #(
 						next_state = S3;
 					 end 
 					 
-//					 else if (game_timer_value == 0) begin
-//							next_state = S4;
-//					 end
+					 else if (game_timer_value == 0) begin
+							next_state = S4;
+					 end
 					 
 					 else if (button_edge) begin
 						next_state = S0;
@@ -95,12 +90,12 @@ module reaction_time_fsm #(
 				
             S3: 
             begin
-//					 if (game_timer_value == 0) begin
-//							next_state = S4;
-//					 end
-//                else begin
-						   next_state = S1;
-//					 end
+					 if (game_timer_value == 0) begin
+							next_state = S4;
+					 end
+                else begin
+						    next_state = S1;
+					 end
 					 
             end
 				
@@ -133,9 +128,9 @@ module reaction_time_fsm #(
 				previous_switch_value <= switches;
 		  end
 		  
-		  else if (state == S0) begin
-				user_score_local <= 0;
-		  end
+//		  else if (state == S0) begin
+//				user_score_local <= 0;
+//		  end
 		  
 		  else if (state == S3) begin
 				user_score_local <= user_score_local + user_increment;
@@ -147,6 +142,9 @@ module reaction_time_fsm #(
     // Continuously assign outputs here! (See 3.1 code snippets)
     always_comb 
     begin
+				game_reset = 1;
+				game_timer_enable = 1;
+				
 	         reset = 1;
             up = 0;
             enable = 0;
@@ -157,6 +155,7 @@ module reaction_time_fsm #(
             begin
 					 game_reset = 1;
 					 game_timer_enable = 0;
+					 
                 reset = 1;
                 up = 0;
                 enable = 0;
@@ -226,9 +225,5 @@ module reaction_time_fsm #(
     end
 	 
 	 assign user_score = user_score_local;
-	 
-	 
-	 
-	 
     
 endmodule
