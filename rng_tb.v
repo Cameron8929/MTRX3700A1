@@ -4,11 +4,11 @@ module rng_tb;
     reg clk;
 
     // Outputs from the DUT
-    wire [4:0] random_value; // 5-bit output, as MAX_VALUE is 32
+    wire [4:0] random_value; // 5-bit output, as MAX_VALUE is 32.
 
     // Instantiate the rng module with specific parameters
     rng #(
-        .MAX_VALUE(18),
+        .MAX_VALUE(17),
         .SEED(1) // Choose your seed value here
     ) dut (
         .clk(clk),
