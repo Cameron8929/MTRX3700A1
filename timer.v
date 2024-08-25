@@ -14,10 +14,9 @@ module timer #(
     output [$clog2(MAX_MS)-1:0] timer_value
 );
 	 wire [$clog2(MAX_MS)-1:0]start_value;
-	 assign start_value = 50000;
+	 assign start_value = CLKS_PER_MS;
 	 
-    // Your code here!
-	 // Test Delete and Reopen
+
     reg [$clog2(CLKS_PER_MS)-1:0] clock_ticks;
     reg [$clog2(MAX_MS)-1:0] ms;
 
