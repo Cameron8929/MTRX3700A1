@@ -19,8 +19,7 @@ module top_level (
                                     .reset(timer_reset),
                                     .up(timer_up),
                                     .enable(timer_enable),
-                                    .timer_value(timer_value),
-												.start_value(50000));
+                                    .timer_value(timer_value));
 	
 	 // Timer for countdown while game is taking place											
     timer   #(.MAX_MS(10), .CLKS_PER_MS(50000000))    u_countdown_timer         (// Inputs:
@@ -28,8 +27,7 @@ module top_level (
                                     .reset(game_reset),
                                     .up(0),
                                     .enable(game_timer_enable),
-                                    .timer_value(game_timer_value),
-												.start_value(9));
+                                    .timer_value(game_timer_value));
 
     debounce u_debounce (
     .clk(CLOCK_50),

@@ -51,7 +51,7 @@ module reaction_time_fsm #(
 							next_state = S2;
 					 end 
 					 
-					 else if ((button_edge) | (game_timer_value == 0)) begin
+					 else if (button_edge) begin
 							next_state = S0;
 					 end 
 					 
@@ -84,7 +84,7 @@ module reaction_time_fsm #(
 //							next_state = S4;
 //					 end
 					 
-					 else if ((button_edge) | (game_timer_value == 0)) begin
+					 else if (button_edge) begin
 						next_state = S0;
 					 end 
 					 
