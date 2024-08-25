@@ -10,7 +10,7 @@ module timer #(
     input                       clk,
     input                       reset,
     input                       up,
-    //input  [$clog2(MAX_MS)-1:0] start_value, // What does the $clog2() function do here?
+    //input  [$clog2(MAX_)-1:0] start_value, // What does the $clog2() function do here?
     
 	 input                       enable,
     output [$clog2(MAX_MS)-1:0] timer_value
