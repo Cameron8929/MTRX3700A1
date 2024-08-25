@@ -1,3 +1,6 @@
+// James test
+//Darcy test
+
 `timescale 1ns/1ns /* This directive (`) specifies simulation <time unit>/<time precision>. */
 
 module timer #(
@@ -10,7 +13,7 @@ module timer #(
 	 input                       enable,
     output [$clog2(MAX_MS)-1:0] timer_value
 );
-	 wire [$clog2(MAX_MS)-1:0] start_value;
+	 wire [$clog2(MAX_MS)-1:0]start_value;
 	 assign start_value = CLKS_PER_MS;
 	 
 
@@ -25,7 +28,6 @@ module timer #(
         if (reset)
         begin
             clock_ticks <= 0;
-				
             if (up)
             begin
                 ms <= 0;
