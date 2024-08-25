@@ -1,11 +1,14 @@
 module top_level (
     input         CLOCK_50,              // DE2-115's 50MHz clock signal
     input  [3:0]  KEY,                   // The 4 push buttons on the board
+	 input  [17:0] SW, 
     output [17:0] LEDR,                  // 18 red LEDs
     output [6:0]  HEX0, HEX1, HEX2, HEX3 // Four 7-segment displays
+	 
 );
 
     // Intermediate wires: (DO NOT EDIT WIRE NAMES!)
+	 wire [3:0] user_score;
     wire        timer_reset, timer_up, timer_enable, button_pressed;
     wire [10:0] timer_value, random_value;
 
@@ -26,7 +29,7 @@ module top_level (
 
     display u_display (
     .clk(CLOCK_50),
-    .value(timer_value),
+    .value(user_score),
     .display0(HEX0), // Connect to HEX0
     .display1(HEX1), // Connect to HEX1
     .display2(HEX2), // etc.
@@ -43,12 +46,15 @@ module top_level (
     reaction_time_fsm u1 (
         .clk(CLOCK_50),
         .button_pressed(button_pressed),
+		  .switches(SW),
         .timer_value(timer_value),
 		  .random_value(random_value),
         .reset(timer_reset),
         .up(timer_up),
         .enable(timer_enable),
-        .led_on(LEDR)  // Connect to LEDR[0]
+        .led_on(LEDR),
+		  .user_score(user_score)
+		  
 		  
     );
 
