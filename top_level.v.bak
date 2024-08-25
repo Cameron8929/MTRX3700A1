@@ -11,12 +11,7 @@ module top_level (
 	 wire [3:0] user_score;
     wire        timer_reset, timer_up, timer_enable, button_pressed;
 	 wire 		 game_reset, game_timer_enable;
-    wire [10:0] timer_value, random_value;
-	 
-	 wire [$clog2(10)-1:0] game_timer_value;
-	 
-	 wire [$clog2(10)-1:0] sus_timer;
-	 assign sus_timer = 4'b1111 - game_timer_value;
+    wire [10:0] timer_value, random_value, game_timer_value;
 
     // First module instantiated for you as an example:
     timer           u_mole_on_timer         (// Inputs:
@@ -30,7 +25,7 @@ module top_level (
     timer   #(.MAX_MS(10), .CLKS_PER_MS(50000000))    u_countdown_timer         (// Inputs:
                                     .clk(CLOCK_50),
                                     .reset(game_reset),
-                                    .up(1),
+                                    .up(0),
                                     .enable(game_timer_enable),
                                     .timer_value(game_timer_value));
 
@@ -50,7 +45,7 @@ module top_level (
 	 
 	 display u_display1 (
     .clk(CLOCK_50),
-    .value(sus_timer),
+    .value(game_timer_value),
     .display0(HEX4), // Connect to HEX4
     .display1(HEX5), // Connect to HEX5
     .display2(HEX6), 
