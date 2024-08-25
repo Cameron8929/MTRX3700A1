@@ -6,7 +6,7 @@ module reaction_time_fsm #(
     input                             clk,
     input                             button_pressed,
     input        [$clog2(MAX_MS)-1:0] timer_value,
-	 input 		  [$clog2(10)-1:0]     game_timer_value,
+	 input 		  [$clog2(60)-1:0]     game_timer_value,
 	 input 									  [$clog2(LED_NUM)-1:0]random_value,
 	 input  									  [17:0] switches, 
     output logic                      reset,
@@ -15,7 +15,8 @@ module reaction_time_fsm #(
 	 output logic 							  game_reset, 
 	 output logic 							  game_timer_enable,
     output logic                      [LED_NUM:0] led_on,
-	 output logic 							  [3:0] user_score
+	 output logic 							  [6:0] user_score,
+	 output logic 							[4: 0] level
 );  
 		
     // Edge detection block here!
@@ -55,7 +56,7 @@ module reaction_time_fsm #(
 							next_state = S0;
 					 end 
 					 
-					 else if (game_timer_value == 15) begin
+					 else if (game_timer_value == 63) begin
 							next_state = S4;
 					 end
 					 
@@ -66,7 +67,7 @@ module reaction_time_fsm #(
             end
             S2: 
             begin
-                if (timer_value == MAX_TIME_LED_ON) begin
+                if (timer_value == (MAX_TIME_LED_ON-(200*(user_score/5)))) begin
 						next_state = S1;
 					 end 
 					 
@@ -74,7 +75,7 @@ module reaction_time_fsm #(
 						next_state = S3;
 					 end 
 					 
-					 else if (game_timer_value == 15) begin
+					 else if (game_timer_value == 63) begin
 							next_state = S4;
 					 end
 					 
@@ -89,7 +90,7 @@ module reaction_time_fsm #(
 				
             S3: 
             begin
-					 if (game_timer_value == 15) begin
+					 if (game_timer_value == 63) begin
 							next_state = S4;
 					 end
                 else begin
@@ -114,7 +115,7 @@ module reaction_time_fsm #(
 	 
 	 logic user_increment;
 	 
-	 logic [3:0] user_score_local;
+	 logic [6:0] user_score_local;
     
     always_ff @(posedge clk) begin
 		  state <= S0;
@@ -220,6 +221,7 @@ module reaction_time_fsm #(
     end
 	 
 	 assign user_score = user_score_local;
+	 assign level = user_score_local / 5;
 	 
 	 
 	 
