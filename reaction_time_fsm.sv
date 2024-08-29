@@ -4,7 +4,7 @@ module reaction_time_fsm #(
 	 parameter MAX_TIME_LED_ON = 1000 // Ms
 )(
     input                             clk,
-    input                             button_pressed,
+    input                             button_edge,
     input        [$clog2(MAX_MS)-1:0] timer_value,
 	 input 		  [$clog2(60)-1:0]     game_timer_value,
 	 input 									  [$clog2(LED_NUM)-1:0]random_value,
@@ -19,12 +19,6 @@ module reaction_time_fsm #(
 	 output logic 							[3: 0] level
 );  
 		
-    // Edge detection block here!
-    logic button_q0, button_edge;
-    always_ff @(posedge clk) begin : edge_detect
-        button_q0 <= button_pressed;
-    end : edge_detect
-    assign button_edge = (button_pressed > button_q0);
 
     // State typedef enum here! (See 3.1 code snippets)
 	 
@@ -33,7 +27,7 @@ module reaction_time_fsm #(
 
 //    state_type state, next_state;
 
-	 enum {S0, S1, S2, S3, S4} next_state, state = S0;
+	 enum logic [4:0] {S0, S1, S2, S3, S4} next_state, state = S0;
     
     // always_comb for next_state_logic here! (See 3.1 code snippets)
 	 // state <= S0;

@@ -20,6 +20,7 @@ module top_level (
 	 wire [$clog2(60)-1:0] game_timer_value;
 	 
 	 wire [$clog2(60)-1:0] sus_timer;
+	 wire button_edge;
 	 assign sus_timer = 6'b111100 - game_timer_value;
 	 assign HEX7 = 7'b1000111;
 	 
@@ -86,10 +87,16 @@ module top_level (
 		  
     );
 	 
+	 button_edge_module u_be (
+		.clk(CLOCK_50),
+		.button_pressed(button_pressed),
+		.button_edge(button_edge)
+	);
+	 
 
     reaction_time_fsm u1 (
         .clk(CLOCK_50),
-        .button_pressed(button_pressed),
+        .button_edge(button_edge),
 		  .switches(SW_FILT),
 		  .game_reset(game_reset),
 		  .game_timer_enable(game_timer_enable),

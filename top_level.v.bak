@@ -8,10 +8,22 @@ module top_level (
 );
 
     // Intermediate wires: (DO NOT EDIT WIRE NAMES!)
-	 wire [3:0] user_score;
+	 wire [6:0]  user_score;
     wire        timer_reset, timer_up, timer_enable, button_pressed;
 	 wire 		 game_reset, game_timer_enable;
-    wire [10:0] timer_value, random_value, game_timer_value;
+    wire [10:0] timer_value, random_value;
+	 
+	 wire [6:0] HEX_DUMMY0, HEX_DUMMY1;
+	 
+	 wire [3:0] level;
+	 
+	 wire [$clog2(60)-1:0] game_timer_value;
+	 
+	 wire [$clog2(60)-1:0] sus_timer;
+	 assign sus_timer = 6'b111100 - game_timer_value;
+	 assign HEX7 = 7'b1000111;
+	 
+	 wire [17:0] SW_FILT;
 
     // First module instantiated for you as an example:
     timer           u_mole_on_timer         (// Inputs:
@@ -22,10 +34,10 @@ module top_level (
                                     .timer_value(timer_value));
 	
 	 // Timer for countdown while game is taking place											
-    timer   #(.MAX_MS(10), .CLKS_PER_MS(50000000))    u_countdown_timer         (// Inputs:
+    timer   #(.MAX_MS(60), .CLKS_PER_MS(50000000))    u_countdown_timer         (// Inputs:
                                     .clk(CLOCK_50),
                                     .reset(game_reset),
-                                    .up(0),
+                                    .up(1),
                                     .enable(game_timer_enable),
                                     .timer_value(game_timer_value));
 
@@ -33,6 +45,16 @@ module top_level (
     .clk(CLOCK_50),
     .button(KEY[0]),  // Connect to KEY[0]
     .button_pressed(button_pressed));
+	 
+	 genvar i;   // Important: use the 'genvar' type for the index of the generate for loop.
+	 generate
+	   for (i=0; i<17; i=i+1) begin : gen_byte // Important: label the loop (e.g. 'gen_byte').
+			 debounce u0 (
+			 .clk(CLOCK_50),
+			 .button(SW[i]),  // Connect to KEY[0]
+			 .button_pressed(SW_FILT[i]));
+	   end
+	 endgenerate
 
     display u_display (
     .clk(CLOCK_50),
@@ -45,12 +67,17 @@ module top_level (
 	 
 	 display u_display1 (
     .clk(CLOCK_50),
-    .value(game_timer_value),
+    .value(sus_timer+(100*level)),
     .display0(HEX4), // Connect to HEX4
     .display1(HEX5), // Connect to HEX5
-    .display2(HEX6), 
-    .display3(HEX7)
+    .display2(HEX_DUMMY0), 
+    .display3(HEX_DUMMY1)
     );
+	 
+	 seven_seg level_num_display(
+	 .bcd(level),
+	 .segments(HEX6)
+	 );
 	 
 	 
 	 rng u2 (
@@ -63,7 +90,7 @@ module top_level (
     reaction_time_fsm u1 (
         .clk(CLOCK_50),
         .button_pressed(button_pressed),
-		  .switches(SW),
+		  .switches(SW_FILT),
 		  .game_reset(game_reset),
 		  .game_timer_enable(game_timer_enable),
         .timer_value(timer_value),
@@ -73,7 +100,8 @@ module top_level (
         .up(timer_up),
         .enable(timer_enable),
         .led_on(LEDR),
-		  .user_score(user_score)
+		  .user_score(user_score),
+		  .level(level)
     );
 
 
