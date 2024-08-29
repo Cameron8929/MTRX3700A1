@@ -1,4 +1,4 @@
-module reaction_time_fsm #(
+module exposed_reaction_time_fsm #(
     parameter MAX_MS=2047,
     parameter LED_NUM = 18,
 	 parameter MAX_TIME_LED_ON = 1000 // Ms
@@ -16,7 +16,9 @@ module reaction_time_fsm #(
 	 output logic 							  game_timer_enable,
     output logic                      [LED_NUM:0] led_on,
 	 output logic 							  [6:0] user_score,
-	 output logic 							[3: 0] level
+	 output logic 							[3: 0] level,
+	 output logic [LED_NUM:0] leds,
+	 output logic [LED_NUM:0] previous_switch_value
 );  
 		
 
@@ -31,11 +33,6 @@ module reaction_time_fsm #(
     
     // always_comb for next_state_logic here! (See 3.1 code snippets)
 	 // state <= S0;
-	 
-	 logic [LED_NUM:0] leds;
-	 
-	 logic [LED_NUM:0] previous_switch_value;
-	 
     always_comb 
     begin
         case (state)
@@ -107,8 +104,10 @@ module reaction_time_fsm #(
 				end
         endcase
     end
-	 
-	 
+//	 
+//	 logic [LED_NUM:0] leds;
+//	 
+//	 logic [LED_NUM:0] previous_switch_value;
 	 
 	 logic user_increment;
 	 
