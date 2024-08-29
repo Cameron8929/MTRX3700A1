@@ -16,7 +16,7 @@ module reaction_time_fsm #(
 	 output logic 							  game_timer_enable,
     output logic                      [LED_NUM:0] led_on,
 	 output logic 							  [6:0] user_score,
-	 output logic 							[4: 0] level
+	 output logic 							[3: 0] level
 );  
 		
     // Edge detection block here!
@@ -56,7 +56,7 @@ module reaction_time_fsm #(
 							next_state = S0;
 					 end 
 					 
-					 else if (game_timer_value == 63) begin
+					 else if (game_timer_value == 60) begin
 							next_state = S4;
 					 end
 					 
@@ -75,7 +75,7 @@ module reaction_time_fsm #(
 						next_state = S3;
 					 end 
 					 
-					 else if (game_timer_value == 63) begin
+					 else if (game_timer_value == 60) begin
 							next_state = S4;
 					 end
 					 
@@ -90,7 +90,7 @@ module reaction_time_fsm #(
 				
             S3: 
             begin
-					 if (game_timer_value == 63) begin
+					 if (game_timer_value == 60) begin
 							next_state = S4;
 					 end
                 else begin

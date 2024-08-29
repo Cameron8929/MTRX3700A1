@@ -13,15 +13,17 @@ module top_level (
 	 wire 		 game_reset, game_timer_enable;
     wire [10:0] timer_value, random_value;
 	 
-	 wire [6:0] HEX_DUMMY;
+	 wire [6:0] HEX_DUMMY0, HEX_DUMMY1;
 	 
-	 wire [5:0] level;
+	 wire [3:0] level;
 	 
 	 wire [$clog2(60)-1:0] game_timer_value;
 	 
 	 wire [$clog2(60)-1:0] sus_timer;
-	 assign sus_timer = 6'b111111 - game_timer_value;
+	 assign sus_timer = 6'b111100 - game_timer_value;
 	 assign HEX7 = 7'b1000111;
+	 
+	 wire [17:0] SW_FILT;
 
     // First module instantiated for you as an example:
     timer           u_mole_on_timer         (// Inputs:
@@ -43,6 +45,16 @@ module top_level (
     .clk(CLOCK_50),
     .button(KEY[0]),  // Connect to KEY[0]
     .button_pressed(button_pressed));
+	 
+	 genvar i;   // Important: use the 'genvar' type for the index of the generate for loop.
+	 generate
+	   for (i=0; i<17; i=i+1) begin : gen_byte // Important: label the loop (e.g. 'gen_byte').
+			 debounce u0 (
+			 .clk(CLOCK_50),
+			 .button(SW[i]),  // Connect to KEY[0]
+			 .button_pressed(SW_FILT[i]));
+	   end
+	 endgenerate
 
     display u_display (
     .clk(CLOCK_50),
@@ -58,9 +70,14 @@ module top_level (
     .value(sus_timer+(100*level)),
     .display0(HEX4), // Connect to HEX4
     .display1(HEX5), // Connect to HEX5
-    .display2(HEX6), 
-    .display3(HEX_DUMMY)
+    .display2(HEX_DUMMY0), 
+    .display3(HEX_DUMMY1)
     );
+	 
+	 seven_seg level_num_display(
+	 .bcd(level),
+	 .segments(HEX6)
+	 );
 	 
 	 
 	 rng u2 (
@@ -73,7 +90,7 @@ module top_level (
     reaction_time_fsm u1 (
         .clk(CLOCK_50),
         .button_pressed(button_pressed),
-		  .switches(SW),
+		  .switches(SW_FILT),
 		  .game_reset(game_reset),
 		  .game_timer_enable(game_timer_enable),
         .timer_value(timer_value),
