@@ -19,7 +19,7 @@ module debounce_tb;
 
     // Initialize signals
     initial begin
-        // Initialize the button to 0, gets rid of red line
+        // Initialize the button to 0, gets rid of red lines
         button = 0;
     end
 
