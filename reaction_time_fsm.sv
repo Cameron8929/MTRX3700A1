@@ -20,7 +20,15 @@ module reaction_time_fsm #(
 );  
 		
 
-    // State typedef enum here! (See 3.1 code snippets)
+		
+		    // Declare internal signals
+    logic [LED_NUM:0] leds;               
+    logic [LED_NUM:0] previous_switch_value; 
+    logic user_increment;
+    logic [6:0] user_score_local;
+    
+	 
+	 // State typedef enum here! (See 3.1 code snippets)
 	 
 //    typedef enum {S0, S1, S2, S3} state_type;
 //	 typedef enum {S0, S1, S2, S3} state_type = S0;
@@ -102,14 +110,6 @@ module reaction_time_fsm #(
 				end
         endcase
     end
-	 
-	 logic [LED_NUM:0] leds;
-	 
-	 logic [LED_NUM:0] previous_switch_value;
-	 
-	 logic user_increment;
-	 
-	 logic [6:0] user_score_local;
     
     always_ff @(posedge clk) begin
 		  state <= S0;
@@ -217,8 +217,4 @@ module reaction_time_fsm #(
 	 assign user_score = user_score_local;
 	 assign level = user_score_local / 5;
 	 
-	 
-	 
-	 
-    
 endmodule
