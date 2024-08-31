@@ -1,3 +1,4 @@
+`timescale 1ns/1ps
 module top_level_tb;
     // Step 1: Define test bench variables:
     logic        CLOCK_50;
@@ -8,35 +9,39 @@ module top_level_tb;
 
 
     logic [10:0] start_value = 10; // Initialise to 10.
+	 
+	 initial begin
+		CLOCK_50 = 0;
+		KEY = 0;
+		SW = 0;
+		{HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6} = 0;
+	  end
 
     // Step 2: Instantiate Device Under Test:
-    top_level DUT (.*);             // SystemVerilog feature: `.*` automatically connects ports of the instantiated module to variables in this module with the same port/variable name!! So useful :D.
-	 
+    top_level #(.SCALE_FACTOR(100)) DUT (.*);             // SystemVerilog feature: `.*` automatically connects ports of the instantiated module to variables in this module with the same port/variable name!! So useful :D.
+	 localparam CLK_PERIOD = 20;
     // Step 3: Toggle the clock variable every 10 time units to create a clock signal **with period = 20 time units**:
-    localparam CLK_PERIOD = 20;
-    initial forever #(CLK_PERIOD/2) CLOCK_50 = ~CLOCK_50; // forever is an infinite loop!
+    initial begin
+		CLOCK_50 = 0;
+		forever #(CLK_PERIOD) CLOCK_50 = ~CLOCK_50;
+	  end
+
 
     // Step 4: Initial block with initial inputs. To specify later inputs, use the delay operator `#`.
     initial begin
         $dumpfile("waveform.vcd");  // Tell the simulator to dump variables into the 'waveform.vcd' file during the simulation. Required to produce a waveform .vcd file.
         $dumpvars();
 		  
-        
-        start_value = 10;
+		  #(CLK_PERIOD*5.5);
+		  KEY[0] = 0;
+        #(CLK_PERIOD*500000);
         KEY[0] = 1;
-        #(CLK_PERIOD*30);   // 10 Clock cycle delay.
+        #(CLK_PERIOD*1000000);
         KEY[0] = 0; // Start count down
-//        #(CLK_PERIOD*10);   // Timer counts 5 times from 10 to 5 (1 count every 2 clock cycles).
-//        button_pressed = 0;
-//        #(CLK_PERIOD*40);   // Timer counts 19 times (not 20, as it takes a clock cycle to reset the timer!)
-//                            // So, the timer should have counted from 5 to 0, then up to 14.
-//        button_pressed = 1; // React!
-//        #(CLK_PERIOD*10);   // Timer should have paused (enable=0).
-//        button_pressed = 0;
-//        #(CLK_PERIOD*100);  // Pause for a further 100 cycles.
-//        button_pressed = 1; // Go back to initial state.
-//        #(CLK_PERIOD*10);
-        $display(" reset: %b, up: %b, enable: %b, led_on: %b", reset, up, enable, led_on);
+		  #(CLK_PERIOD*2000000);
+		  
+		  
+
 
         $finish(); // Important: must end simulation (or it will go on forever!)
     end

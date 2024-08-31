@@ -1,4 +1,6 @@
-module top_level (
+module top_level #(
+    parameter SCALE_FACTOR = 1
+)(
     input         CLOCK_50,              // DE2-115's 50MHz clock signal
     input  [3:0]  KEY,                   // The 4 push buttons on the board
 	 input  [17:0] SW, 
@@ -27,7 +29,7 @@ module top_level (
 	 wire [17:0] SW_FILT;
 
     // First module instantiated for you as an example:
-    timer           u_mole_on_timer         (// Inputs:
+    timer     #(.MAX_MS(2047), .CLKS_PER_MS(50000/SCALE_FACTOR))      u_mole_on_timer         (// Inputs:
                                     .clk(CLOCK_50),
                                     .reset(timer_reset),
                                     .up(timer_up),
@@ -35,7 +37,7 @@ module top_level (
                                     .timer_value(timer_value));
 	
 	 // Timer for countdown while game is taking place											
-    timer   #(.MAX_MS(60), .CLKS_PER_MS(50000000))    u_countdown_timer         (// Inputs:
+    timer   #(.MAX_MS(60), .CLKS_PER_MS(50000000/SCALE_FACTOR))    u_countdown_timer         (// Inputs:
                                     .clk(CLOCK_50),
                                     .reset(game_reset),
                                     .up(1),
@@ -68,7 +70,7 @@ module top_level (
 	 
 	 display u_display1 (
     .clk(CLOCK_50),
-    .value(sus_timer+(100*level)),
+    .value(sus_timer+(100*level/SCALE_FACTOR)),
     .display0(HEX4), // Connect to HEX4
     .display1(HEX5), // Connect to HEX5
     .display2(HEX_DUMMY0), 
