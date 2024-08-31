@@ -1,4 +1,4 @@
-`timescale 1ns/1ps
+`timescale 1us/1us
 module top_level_tb;
     // Step 1: Define test bench variables:
     logic        CLOCK_50;
@@ -18,8 +18,9 @@ module top_level_tb;
 	  end
 
     // Step 2: Instantiate Device Under Test:
-    top_level #(.SCALE_FACTOR(100)) DUT (.*);             // SystemVerilog feature: `.*` automatically connects ports of the instantiated module to variables in this module with the same port/variable name!! So useful :D.
-	 localparam CLK_PERIOD = 20;
+	 localparam SIMULATE_SECONDS = 100000;
+    top_level #(.SCALE_FACTOR(1000)) DUT (.*);             // SystemVerilog feature: `.*` automatically connects ports of the instantiated module to variables in this module with the same port/variable name!! So useful :D.
+	 localparam CLK_PERIOD = 10;
     // Step 3: Toggle the clock variable every 10 time units to create a clock signal **with period = 20 time units**:
     initial begin
 		CLOCK_50 = 0;
@@ -32,13 +33,13 @@ module top_level_tb;
         $dumpfile("waveform.vcd");  // Tell the simulator to dump variables into the 'waveform.vcd' file during the simulation. Required to produce a waveform .vcd file.
         $dumpvars();
 		  
-		  #(CLK_PERIOD*5.5);
-		  KEY[0] = 0;
-        #(CLK_PERIOD*500000);
+//		  #(CLK_PERIOD*0);
+//		  KEY[0] = 0;
+        #(CLK_PERIOD*5*SIMULATE_SECONDS);
         KEY[0] = 1;
-        #(CLK_PERIOD*1000000);
+        #(CLK_PERIOD*0.5*SIMULATE_SECONDS);
         KEY[0] = 0; // Start count down
-		  #(CLK_PERIOD*2000000);
+		  #(CLK_PERIOD*2*SIMULATE_SECONDS);
 		  
 		  
 

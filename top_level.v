@@ -44,7 +44,7 @@ module top_level #(
                                     .enable(game_timer_enable),
                                     .timer_value(game_timer_value));
 
-    debounce u_debounce (
+    debounce #(.DELAY_COUNTS(2500/SCALE_FACTOR)) u_debounce (
     .clk(CLOCK_50),
     .button(KEY[0]),  // Connect to KEY[0]
     .button_pressed(button_pressed));
@@ -52,7 +52,7 @@ module top_level #(
 	 genvar i;   // Important: use the 'genvar' type for the index of the generate for loop.
 	 generate
 	   for (i=0; i<17; i=i+1) begin : gen_byte // Important: label the loop (e.g. 'gen_byte').
-			 debounce u0 (
+			 debounce #(.DELAY_COUNTS(2500/SCALE_FACTOR)) u0 (
 			 .clk(CLOCK_50),
 			 .button(SW[i]),  // Connect to KEY[0]
 			 .button_pressed(SW_FILT[i]));
