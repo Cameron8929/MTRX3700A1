@@ -40,9 +40,6 @@ module reaction_time_fsm #(
     // always_comb for next_state_logic here! (See 3.1 code snippets)
 	 // state <= S0;
 	 
-	 logic [LED_NUM:0] leds;
-	 
-	 logic [LED_NUM:0] previous_switch_value;
 	 
     always_comb 
     begin
@@ -116,9 +113,7 @@ module reaction_time_fsm #(
         endcase
     end
 	 
-	 logic user_increment;
 	 
-	 logic [6:0] user_score_local;
     
     always_ff @(posedge clk) begin
 		  state <= S0;
