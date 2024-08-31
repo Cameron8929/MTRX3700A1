@@ -7,7 +7,6 @@ module reaction_time_fsm_tb;
     // Testbench Variables
     logic        clk;
     logic        button_edge;
-    logic        button_pressed;
     logic [10:0] timer_value;
     logic        reset;
     logic        up;
@@ -55,8 +54,7 @@ module reaction_time_fsm_tb;
         forever #(CLK_PERIOD/2) clk = ~clk;
     end
 
-	     initial begin
-        button_pressed = 0; 
+	     initial begin 
         button_edge = 0;
         timer_value = 10;
         game_timer_value = 0;
