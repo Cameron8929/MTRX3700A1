@@ -33,15 +33,17 @@ module top_level_tb;
         $dumpfile("waveform.vcd");  // Tell the simulator to dump variables into the 'waveform.vcd' file during the simulation. Required to produce a waveform .vcd file.
         $dumpvars();
 		  
-//		  #(CLK_PERIOD*0);
-//		  KEY[0] = 0;
+
         #(CLK_PERIOD*5*SIMULATE_SECONDS);
         KEY[0] = 1;
         #(CLK_PERIOD*0.5*SIMULATE_SECONDS);
         KEY[0] = 0; // Start count down
 		  #(CLK_PERIOD*2*SIMULATE_SECONDS);
-		  
-		  
+		  $display("before equating SW = %b, LEDR = %b, HEX0 = %b", SW, LEDR, HEX0);
+		  SW = LEDR;
+		  $display("after equating SW = %b, LEDR = %b, HEX0 = %b", SW, LEDR, HEX0);
+		  #(CLK_PERIOD*2*SIMULATE_SECONDS);
+
 
 
         $finish(); // Important: must end simulation (or it will go on forever!)
