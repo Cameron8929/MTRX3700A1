@@ -33,7 +33,8 @@ module reaction_time_fsm_tb;
     // Instantiate DUT (Device Under Test)
     reaction_time_fsm #(
         .MAX_MS(MAX_MS),
-        .LED_NUM(LED_NUM)
+        .LED_NUM(LED_NUM),
+		  .MAX_TIME_LED_ON(MAX_TIME_LED_ON)
     ) DUT (
         .clk(clk),
         .button_edge(button_edge),
@@ -70,12 +71,12 @@ module reaction_time_fsm_tb;
 		  level = 0;
 		  button_edge = 0;
 		  timer_value = 10;
-		  switches = 5'h15557;
+		  switches = 0;
 		  leds = 0;
-		  previous_switch_value = 5'h15555;
+		  previous_switch_value = 0;
 		  user_score_local = 1;
 		  game_timer_value = 10;
-		  random_value = 0;
+		  random_value = 1;
     end
 
     // Testbench stimulus
@@ -102,9 +103,17 @@ module reaction_time_fsm_tb;
 		  #(CLK_PERIOD * 10);
 		  timer_value = 0;
 		  
+		  #(CLK_PERIOD * 4);
+		  timer_value = 10;
+		  
+		  #(CLK_PERIOD * 5);
+		  random_value = 2;
+		  leds = 4;
+		  
 		  // Go from S2 to S3
-		  #(CLK_PERIOD * 10);
-		  leds = (previous_switch_value ^ switches);
+		  #(CLK_PERIOD * 5);
+		  switches = 7;
+		  previous_switch_value = 3;
 		  
 		  // Go from S3 to S4
 		  #(CLK_PERIOD * 10);
